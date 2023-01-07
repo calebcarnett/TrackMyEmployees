@@ -1,0 +1,6 @@
+INSERT INTO deparment (id, name)
+VALUES (1,"Sales")
+       (2,"Customer Service")
+       (3,"Marketing")
+       (4,"Product Management")
+       (5,"Engineering")
