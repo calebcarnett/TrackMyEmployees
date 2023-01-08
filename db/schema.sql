@@ -7,21 +7,20 @@ USE employee_db;
 CREATE TABLE department (
     id INT PRIMARY KEY,
     name VARCHAR(30)
-)
+);
 
-CREATE TABLE role (
-    id INT PRIMARY KEY,
+CREATE TABLE roles (
+    id INT NOT NULL,
     title VARCHAR(30),
     salary DECIMAL,
-    department_ID int
-)
+    department_id INT
+);
 
 CREATE TABLE employee (
-    id INT PRIMARY KEY,
+    id INT NOT NULL,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    role_id INT,
+    roles_id INT,
     manager_id INT NULL
-)
-
+);
 
