@@ -3,7 +3,6 @@ CREATE DATABASE employee_db;
 
 USE employee_db;
 
-
 CREATE TABLE department (
     id INT PRIMARY KEY,
     name VARCHAR(30)
@@ -16,7 +15,7 @@ CREATE TABLE roles (
     department_id INT
 );
 
-CREATE TABLE employee (
+CREATE TABLE employees (
     id INT NOT NULL,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
