@@ -23,84 +23,58 @@ const db = mysql.createConnection(
   },
   console.log(`Connected to the employee_db database.`)
 );
+//Selects the employee table
+// db.query('SELECT * FROM employee', function (err, results) {
+//   console.log(results);
+// });
 
 inquirer.prompt([
   {
     type: 'list',
     message: 'what would you like to do?',
-    choices: ["View All Roles","View All Departments", "View All Employees","Add Role", "Add Employee", "Add Department","Update Employee Payroll",],
-    name: 'main'
-    
+    choices: ["View All Roles","View All Departments","View All Employees","Add Role", "Add Employee", "Add Department","Update Employee Payroll",],
+    name: 'main' 
   }
+
 ]).then((employeeData) => {
 
   const { main } = employeeData;
 
-  if (main === "View All Departments") {
-   db.query('SELECT * FROM departments', function (err, results) {
-        console.table(results)
-      });  
-  } else if (main === "View All Roles"){
-    db.query('SELECT * FROM roles', function (err, results) {
+
+switch(main) {
+  case "View All Departments":
+    db.query('SELECT * FROM departments', function (err, results) {
       console.table(results)
     });  
-  } else if (main === "View All Employees"){
+    break;
+  case "View All Roles":
+    db.query('SELECT title as Title, department_id as Department, salary as Salary FROM roles LEFT JOIN departments ON roles.department_id = departments.name;', function (err, results) {
+      console.table(results);
+          });
+    break;
+  case "View All Employees":
     db.query('SELECT * FROM employees', function (err, results) {
       console.table(results)
-    });  
+          });  
 }
-})
-
-
-
-// const addEmployeePrompt = () => {
-//   return inquirer.prompt([
-//     type: "input",
-//     message: "Enter employee name",
-//     name: "EName",
-//   ])
-// }
-// const updateEmployeePrompt = () => {
-//   return inquirer.prompt([
-//     type: "input",
-//     message: "Enter employee name",
-//     name: "EName",
-//   ])
-// }
-// const ViewAllRolesPrompt = () => {
-//   return inquirer.prompt([
-//     type: "input",
-//     message: "Enter employee name",
-//     name: "EName",
-//   ])
-// }
-// const AddRolesPrompt = () => {
-//   return inquirer.prompt([
-//     type: "input",
-//     message: "Enter employee name",
-//     name: "EName",
-//   ])
-// }
-// // const ViewAllDepartmentsPrompt = () => {
-//   return inquirer.prompt([
-//     type: "input",
-//     message: "Enter employee name",
-//     name: "EName",
-//   ])
-// }
-// const AddDepartmentPrompt = () => {
-//   return inquirer.prompt([
-//     type: "input",
-//     message: "Enter employee name",
-//     name: "EName",
-//   ])
-// }
-
-
-
-
-
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
+//   if (main === "View All Departments") {
+//    db.query('SELECT * FROM departments', function (err, results) {
+//         console.table(results)
+//       });  
+//   } else if (main === "View All Roles"){
+//     db.query('SELECT title as Title, department_id as Department, salary as Salary FROM roles LEFT JOIN departments ON roles.department_id = departments.name;', function (err, results) {
+//       console.table(results);
+//     });
+//   } else if (main === "View All Employees"){
+//     db.query('SELECT FROM employees', function (err, results) {
+//       console.table(results)
+//     });  
+//   } 
+// });

@@ -6,13 +6,13 @@ VALUES (1,"Sales"),
        (5,"Engineering");
 
 INSERT INTO roles (id, title, salary, department_id)
-VALUES (1,"Sales", .156531, 1310), 
-       (1,"Sales", .156531, 1310), 
-       (1,"Sales", .156531, 1310), 
-       (1,"Sales", .156531, 1310);
+VALUES (1,"Sales", 156531, 1310), 
+       (2,"Sales", 156531, 1310), 
+       (3,"Sales", 156531, 1310), 
+       (4,"Sales", 156531, 1310);
 INSERT INTO employees (id, first_name, last_name, roles_id, manager_id)
 VALUES (1,"Caleb","Carnett", 3, 1),
-       (1,"Caleb","Carnett", 3, 2),
-       (1,"Caleb","Carnett", 3, 3),
-       (1,"Caleb","Carnett", 3, 4);
+       (2,"Caleb","Carnett", 3, 2),
+       (3,"Caleb","Carnett", 3, 3),
+       (4,"Caleb","Carnett", 3, 4);
       
