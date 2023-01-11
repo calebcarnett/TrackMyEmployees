@@ -3,7 +3,8 @@ const inquirer = require('inquirer');
 require('dotenv').config();
 // Import and require mysql2
 const mysql = require('mysql2');
-const { addListener } = require('nodemon');
+
+require('console.table');
 
 
 const PORT = process.env.PORT || 3001;
@@ -89,7 +90,7 @@ inquirer
     {
       type: 'input',
       name: 'department_id',
-      message: 'What department does the role belong to?'
+      message: 'What is the department id for this role?'
     },
   ])
   .then(answers => {
