@@ -1,15 +1,18 @@
 INSERT INTO departments (name)
-VALUES ("Sales"),
-       ("Customer Service"),
-       ("Marketing"),
-       ("Product Management"),
-       ("Engineering");
+VALUES ("Engineering"),
+       ("Finance"),
+       ("Sales"),
+       ("Legal");
 
 INSERT INTO roles (title, salary, department_id)
-VALUES  ("Sales Manager", 156531, 1), 
-       ("Customer Service Manager", 120000, 2), 
-       ("Marketing Manager", 140000, 3), 
-       ("Product Manager", 180000, 4);
+VALUES  ("Sales Lead", 156531, 1), 
+       ("Salesperson", 120000, 2), 
+       ("Lead Engineer", 140000, 3), 
+       ("Software Engineer", 180000, 4),
+       ("Account Manager", 180000, 4),
+       ("Accountant", 180000, 4),
+       ("Legal Team Lead", 180000, 4),
+       ("Lawyer", 180000, 4);
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES ("John", "Doe", 1, NULL),
        ("Jane", "Doe", 2, 1),

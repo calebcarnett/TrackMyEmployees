@@ -3,6 +3,7 @@ const inquirer = require('inquirer');
 require('dotenv').config();
 // Import and require mysql2
 const mysql = require('mysql2');
+const { addListener } = require('nodemon');
 
 
 const PORT = process.env.PORT || 3001;
@@ -25,20 +26,15 @@ const db = mysql.createConnection(
   console.log(`Connected to the employee_db database.`)
 );
 
+function menu() {
+
 inquirer.prompt([
   {
     type: 'list',
     message: 'what would you like to do?',
-    choices: ["View All Roles","View All Departments","View All Employees","Add Role", "Add Employee", "Add Department","Update Employee Payroll",],
+    choices: ["View All Roles","View All Departments","View All Employees","Add Role", "Add Employee", "Add Department","Update Employee Role",],
     name: 'main' 
   },
-  {
-    type: 'input',
-    message: 'What is the name of the department?',
-    name: 'employee', 
-    when: (input) => input.main === "Add Department"
-  }
-
 
 ]).then((employeeData) => {
 
@@ -46,18 +42,21 @@ inquirer.prompt([
 
 switch(main) {
   case "View All Departments":
-    db.query('SELECT * FROM departments', function (err, results) {
+    db.query('SELECT name FROM departments', function (err, results) {
       console.table(results)
+      menu();
     });  
     break;
   case "View All Roles":
     db.query('SELECT title as Title, department_id as Department, salary as Salary FROM roles LEFT JOIN departments ON roles.department_id = departments.name;', function (err, results) {
       console.table(results);
           });
+          menu();
     break;
   case "View All Employees":
-    db.query('SELECT * FROM employees', function (err, results) {
+    db.query('SELECT * FROM employees;', function (err, results) {
       console.table(results)
+      menu();
           });  
           break;
   case "Add Role":
@@ -66,9 +65,12 @@ switch(main) {
   case "Add Employee":
        employeePrompt();
           break;
+  case "Add Department":
+      departmentPrompt();
+          break;
 }
 });
-
+}
 
 //added a prompt to insert roles 
 function rolesPrompt() {
@@ -92,15 +94,19 @@ inquirer
   ])
   .then(answers => {
     db.query(
-      'INSERT INTO roles SET ?',
-      {
-        title: answers.title,
-        salary: answers.salary,
-        department_id: answers.department_id
-      },
+      'INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)',
+      [
+        answers.title,
+        answers.salary,
+        answers.department_id
+      ],
       (error) => {
         if (error) throw error;
         console.log('Role added successfully!');
+        db.query('SELECT title as Title, department_id as Department, salary as Salary FROM roles LEFT JOIN departments ON roles.department_id = departments.name;', function (err, results) {
+          console.table(results);
+          menu();
+              });
       }
     );
   });
@@ -113,42 +119,78 @@ function employeePrompt() {
   type: 'input',
   message: 'What is the employees first name?',
   name: 'firstname', 
-  when: (input) => input.main === "Add Employee"
+
 },
 {
   type: 'input',
   message: 'What is the employees last name?',
   name: 'lastname', 
-  when: (input) => input.main === "Add Employee"
+
 },
 {
   type: 'input',
   message: 'What is the employees role?',
   name: 'employeesRole', 
-  when: (input) => input.main === "Add Employee"
+
 },
 {
   type: 'input',
   message: 'What is the employees manager?',
   name: 'employeeManager', 
-  when: (input) => input.main === "Add Employee"
+
 },
 ])
 .then(answers => {
   db.query(
-    'INSERT INTO employees SET ?',
-    {
-      title: answers.title,
-      salary: answers.salary,
-      department_id: answers.department_id
-    },
+    'INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)',
+    [
+      answers.first_name,
+      answers.last_name,
+      answers.role_id,
+      answers.manager_id
+    ],
     (error) => {
       if (error) throw error;
-      console.log('Role added successfully!');
+      console.log('Employee added successfully!');
+      db.query('SELECT * FROM employees;', function (err, results) {
+        console.table(results)
+        menu();
+            }); 
     }
   );
 });
 }
+
+function departmentPrompt() {
+  inquirer
+    .prompt([
+{
+  type: 'input',
+  message: 'What is the name of the department?',
+  name: 'departmentname', 
+},
+])
+.then(answers => {
+  db.query(
+    'INSERT INTO departments(name) VALUES (?)',
+    [
+      answers.name
+    ],
+    (error) => {
+      if (error) throw error;
+      console.log('Department added successfully!');
+      db.query('SELECT * FROM departments;', function (err, results) {
+        console.table(results)
+        menu();
+            }); 
+    }
+  );
+});
+}
+
+menu();
+
+
 
 
 
