@@ -16,6 +16,7 @@ TrackMyEmployees is a content management system(CMS) to manage a company's emplo
  ## Usage
 Input node server.js in the command line to begin application. 
 Please watch the video below for more explanation on how to use this application.
+ https://drive.google.com/file/d/1I2tQ10dPlzKeuCPO2zls84IhzXLAnVBW/view
 
  ## Questions
  If you have any questions concerning this project, you can reach me at carnett@gmail.com or to see my project details visit my github https://github.com/calebcarnett 
